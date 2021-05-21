@@ -1,0 +1,164 @@
+---
+title: "Création d'un blog avec Hugo"
+date: 2021-04-10T14:54:31+02:00
+---
+
+De manière tout à fait non originale, le premier post de ce blog indique de quelle façon il est généré et hébergé.
+
+# Choix du moteur
+Ce blog est statique, il ne repose pas sur un gestionnaire de contenu type Wordpress ou autre.
+Au contraire, toutes les pages sont générées en amont en HTML/CSS/JS et sont servies de manière statique.
+L'outil pour générer ces pages est [Hugo](https://gohugo.io).
+
+Hugo prend en entrée des fichiers au format Markdown, et génère le HTML associé.
+Il existe de nombreuses extensions pour ajouter des fonctionnalités.
+
+# Mise en place
+Commencer par télécharger et installer Hugo en suivant les [instructions officielles](https://gohugo.io/getting-started/installing/).
+
+Ensuite, pour créer un nouveau site, taper la commande suivante :
+
+```bash
+hugo new site blog
+```
+
+Puis, pour ajouter un thème, on va mettre en place un _submodule_ au sens git, il faut donc initialiser le dépôt git et ajouter le thème comme comme suit :
+
+```bash
+cd blog
+git init
+git submodule add https://github.com/theNewDynamic/gohugo-theme-ananke.git themes/ananke
+```
+
+Ici, le thème par défaut est utilisé, mais il en existe [beaucoup d'autres](https://themes.gohugo.io/).
+
+Une fois le thème ajouté, il faut l'indiquer dans la configuration qui se trouve par défaut dans le fichier `config.toml`.
+Hugo supporte aussi le format _YAML_ pour ce fichier de configuration, ce que je vais utiliser :
+
+> *config.yaml*
+>```yaml
+>baseURL: http://example.org/
+>languageCode: fr-fr
+>title: Blog de Stéphane
+>theme: ananke
+>```
+
+## Configuration du thème
+Chaque thème vient avec ses propres possibilités de configuration et d'extension.
+
+Par exemple, pour ce thème, il est possible d'ajouter les paramètres suivants :
+
+```yaml
+params:
+  show_reading_time: true
+  twitter: https://twitter.com/stephane_deraco
+  github: https://github.com/stephane-deraco
+```
+
+Il est possible d'aller plus loin en personnalisant les aspects visuels classiques (couleur de fond, images, ...) ou même d'utiliser un fichier CSS personnalisé.
+
+
+## Création d'une nouvelle entrée de blog
+Pour créer un nouveau post, il suffit de taper la commande suivante :
+```bash
+hugo new posts/2021-04-11-creation-blog-avec-hugo.md
+```
+
+Cela a pour effet de créer un nouveau fichier dans le répertoire `content/posts`.
+Par défaut, l'entrée est en mode _draft_ (`draft: true` dans l'entête), ce qui signifie que lors de la construction du site, elle ne sera pas générée.
+Cependant, pour voir le contenu en local, on peut utiliser la commande :
+
+```bash
+hugo server -D
+```
+
+- `hugo server` permet de construire en local les pages, lance un serveur web et scrute les modifications pour reconstruire à la volée les pages et rafraichir le navigateur grâce à une fonction de _live reload_
+- le flag `-D` indique de générer également les pages _drafts_
+
+# Hébergement
+Comme au final le site est constitué uniquement de ressources statiques, n'importe quel hébergement de base peut suffire.
+
+Ici, je profite de la fonctionnalité Githup Pages pour héberger et servir le blog.
+
+## Construire le site
+La première étape est de construire le site.
+Pour cela, la commande à exécuter est :
+
+```bash
+HUGO_ENV=production hugo
+```
+
+Les fichiers constituant le site sont alors générés dans le répertoire `public`.
+
+> **Note** : Normalement, seule la commande `hugo env` est nécessaire, mais la documentation du thème utilisé indique qu'il faut positionner la variable `HUGO_ENV` à `production`.
+
+> **Note** : Ne pas oublier d'enlever le statut `draft` des pages que l'on souhaite publier.
+
+> **Note** : Dans le fichier `config.yaml`, la valeur de `baseURL` sera utilisée pour les liens, notamment depuis la page d'accueil vers les articles.
+Par défaut, c'est `example.org`. Il faut bien évidemment modifier cette valeur pour mettre l'adresse où le site sera hébergé. Cependant, pour s'assurer que la génération des pages fonctionne, on peut utiliser la commande `hugo -b http://localhost:8000/`, lancer la génération, se placer dans le répertoire `public` et lancer un serveur web depuis se répertoire par exemple avec `python3 -m http.server`.
+
+## Publication du site
+Le site sera hébergé en utilisant la fonctionnalité [Github *Pages*](https://guides.github.com/features/pages/).
+Il faut commencer par créer sur Github un nouveau dépôt ayant en nom `username.github.io` avec *username* le nom d'utilisateur Github.
+C'est ce dépôt qui sera utilisé pour le contenu du site.
+
+La [documentation de Hugo](https://gohugo.io/hosting-and-deployment/hosting-on-github/) indique la marche à suivre.
+
+> Note : On trouvera sur le web une solution à base de submodules Git afin de garder deux dépôts différents, un pour le code du site et un pour le résultat de la génération.
+> Avec les *Github Actions*, comme indiqué sur le site de Hugo, tout cela est grandement simplifié.
+
+Il faut également créer le dépôt qui va contenir le code source.
+Au final, les deux dépôts suivants seront utilisés :
+
+- https://github.com/stephane-deraco/blog.git pour le code source du blog
+- https://github.com/stephane-deraco/stephane-deraco.github.io.git pour le site
+
+La génération et la publication se fait avec les Github Actions.
+Comme indiqué, il faut créer le fichier suivant :
+
+> *.github/workflows/gh-pages.yml*
+> ```yaml
+> name: github pages
+> 
+> on:
+>   push:
+>     branches:
+>       - main  # Set a branch to deploy
+>   pull_request:
+> 
+> jobs:
+>   deploy:
+>     runs-on: ubuntu-20.04
+>     steps:
+>       - uses: actions/checkout@v2
+>         with:
+>           submodules: true  # Fetch Hugo themes (true OR recursive)
+>           fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+> 
+>       - name: Setup Hugo
+>         uses: peaceiris/actions-hugo@v2
+>         with:
+>           hugo-version: 'latest'
+>           # extended: true
+> 
+>       - name: Build
+>         run: hugo --minify
+>         env:
+>           HUGO_ENV: production
+> 
+>       - name: Deploy
+>         uses: peaceiris/actions-gh-pages@v3
+>         if: github.ref == 'refs/heads/main'
+>         with:
+>           github_token: ${{ secrets.GITHUB_TOKEN }}
+>           publish_dir: ./public
+> ```
+
+
+
+## Mise en place d'un domaine personnel
+Avec les opérations précédentes, le site est déjà disponible sur https://stephane-deraco.github.io/.
+
+
+
+# Automatisation avec Github Actions

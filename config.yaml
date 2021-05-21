@@ -1,0 +1,11 @@
+baseURL: https://stephane-deraco.github.io/
+languageCode: fr-fr
+title: Blog de Stéphane
+theme: ananke
+
+DefaultContentLanguage: fr
+
+params:
+  show_reading_time: true
+  twitter: https://twitter.com/stephane_deraco
+  github: https://github.com/stephane-deraco
