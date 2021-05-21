@@ -150,10 +150,34 @@ Comme indiqué, il faut créer le fichier suivant :
 >         uses: peaceiris/actions-gh-pages@v3
 >         if: github.ref == 'refs/heads/main'
 >         with:
->           github_token: ${{ secrets.GITHUB_TOKEN }}
+>           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+>           external_repository: stephane-deraco/stephane-deraco.github.io
+>           publish_branch: main
 >           publish_dir: ./public
 > ```
 
+Par rapport à la version proposé sur le site d'Hugo, ici on indique de pousser le résultat de la construction du site sur un autre dépôt que celui d'origine (`external_repository`), comme documenté sur le [site de l'action Github `peaceiris/actions-gh-pages`](https://github.com/marketplace/actions/github-pages-action#%EF%B8%8F-deploy-to-external-repository-external_repository).
+
+Comme l'action Githu doit interagir avec un dépôt différent de celui à l'origine de l'action, il faut créer une [clé SSH de déploiement](https://github.com/marketplace/actions/github-pages-action#%EF%B8%8F-create-ssh-deploy-key) :
+
+```bash
+ssh-keygen -t rsa -b 4096 -C "$(git config user.email)" -f gh-pages -N ""
+```
+
+Puis aller dans le dépôt Github qui contiendra le résultat du site (`stephane-deraco.github.io`) > *Settings* > *Deploy keys*, cliquer sur le bouton *Add deploy key* et y copier la clé **publique** (le contenu du fichier `gh-pages.pub` généré par la commande précédente), et cocher *Allow write access*.
+
+Aller maintenant dans *Secrets* et ajouter la clé **privée** (le fichier `gh-pages`) en cliquant sur le bouton *New repository secret*.
+Utiliser `ACTIONS_DEPLOY_KEY` comme nom (cela doit correspondre à ce que l'on a mis dans l'action).
+
+On peut maintenant faire un commit et pousser le contenu du dépôt `blog`:
+
+```bash
+git add .
+git commit -m "First blog post"
+git remote add origin https://github.com/stephane-deraco/blog.git
+git branch -M main
+git push -u origin main
+```
 
 
 ## Mise en place d'un domaine personnel
