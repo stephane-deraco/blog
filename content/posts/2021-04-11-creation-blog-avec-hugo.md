@@ -210,3 +210,15 @@ Les deux paramètres importants sont :
 - Hostname : `stephane.deraco.github.io.` (**Attention à ne pas oublier le point final !**)
 
 Il faut maintenant attendre que la propagation DNS se fasse.
+
+### HTTPS
+Comme le site est au final hébergé sur un domaine de Github, le certificat présenté par le site ne correspondra pas au domaine personnalisé, et le navigateur affichera un erreur du type :
+
+> Les sites web justifient leur identité par des certificats. Firefox ne fait pas confiance à ce site, car il utilise un certificat qui n’est pas valide pour blog.deraco.fr. Le certificat est seulement valide pour les noms suivants : www.github.com, *.github.com, github.com, *.github.io, github.io, *.githubusercontent.com, githubusercontent.com
+> 
+> Code d’erreur : SSL_ERROR_BAD_CERT_DOMAIN
+
+En rafraichissant régulièrement la page Github du site (*Settings* > *Pages*), on peut voir d'une part le statut de la vérification du domaine personnalisé, et d'autre part qu'un certificat est en cours de génération.
+
+### Modification de `config.yaml`
+Comme le site est maintenant disponible sur une autre addresse, il faut modifier le paramètre `baseURL` du fichier `config.yaml` afin de pointer sur le domaine personnalisé.
