@@ -158,7 +158,7 @@ Comme indiqué, il faut créer le fichier suivant :
 
 Par rapport à la version proposé sur le site d'Hugo, ici on indique de pousser le résultat de la construction du site sur un autre dépôt que celui d'origine (`external_repository`), comme documenté sur le [site de l'action Github `peaceiris/actions-gh-pages`](https://github.com/marketplace/actions/github-pages-action#%EF%B8%8F-deploy-to-external-repository-external_repository).
 
-Comme l'action Githu doit interagir avec un dépôt différent de celui à l'origine de l'action, il faut créer une [clé SSH de déploiement](https://github.com/marketplace/actions/github-pages-action#%EF%B8%8F-create-ssh-deploy-key) :
+Comme l'action Github doit interagir avec un dépôt différent de celui à l'origine de l'action, il faut créer une [clé SSH de déploiement](https://github.com/marketplace/actions/github-pages-action#%EF%B8%8F-create-ssh-deploy-key) :
 
 ```bash
 ssh-keygen -t rsa -b 4096 -C "$(git config user.email)" -f gh-pages -N ""
@@ -166,8 +166,8 @@ ssh-keygen -t rsa -b 4096 -C "$(git config user.email)" -f gh-pages -N ""
 
 Puis aller dans le dépôt Github qui contiendra le résultat du site (`stephane-deraco.github.io`) > *Settings* > *Deploy keys*, cliquer sur le bouton *Add deploy key* et y copier la clé **publique** (le contenu du fichier `gh-pages.pub` généré par la commande précédente), et cocher *Allow write access*.
 
-Aller maintenant dans *Secrets* et ajouter la clé **privée** (le fichier `gh-pages`) en cliquant sur le bouton *New repository secret*.
-Utiliser `ACTIONS_DEPLOY_KEY` comme nom (cela doit correspondre à ce que l'on a mis dans l'action).
+Aller maintenant dans le dépôt Github qui contiendra le code Markdown (`blog`) > *Secrets* et ajouter la clé **privée** (le fichier `gh-pages`) en cliquant sur le bouton *New repository secret*.
+Utiliser `ACTIONS_DEPLOY_KEY` comme nom (cela doit correspondre à ce que l'on a mis dans l'action Github).
 
 On peut maintenant faire un commit et pousser le contenu du dépôt `blog`:
 
@@ -179,10 +179,34 @@ git branch -M main
 git push -u origin main
 ```
 
+L'action Github va se déclencher, et quelques instants après le dépôt contenant le site sera mis à jour avec le résultat de la construction par Hugo.
 
 ## Mise en place d'un domaine personnel
 Avec les opérations précédentes, le site est déjà disponible sur https://stephane-deraco.github.io/.
 
+Afin qu'il soit disponible sur un autre site personnel (par exemple https://blog.deraco.fr), il faut suivre les [instructions d'Hugo pour mettre en place un domaine personnalisé](https://gohugo.io/hosting-and-deployment/hosting-on-github/#use-a-custom-domain).
 
+### Configuration d'Hugo
+Il suffit de créer un fichier `static/CNAME` avec en contenu uniquement le domaine personnalisé :
 
-# Automatisation avec Github Actions
+> *static/CNAME*
+> ```
+> blog.deraco.fr
+> ```
+
+### Configuration de Github
+Côté Github, [la documentation](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#configuring-a-subdomain) précise qu'il faut configurer le domaine dans le menu *Settings* > *Pages* du dépôt contenu le résultat généré du site statique (ici `stephane-deraco.github.io`).
+
+Renseigner ensuite le domaine (`blog.deraco.fr`),dans *Custom domain*, et enregistrer.
+
+### Configuration du fournisseur de domaine
+Il faut ensuite *prouver* à Github que l'on possède bien le domaine personnalisé en question, et configurer le DNS.
+Pour cela, la méthode est d'ajouter un enregistrement `CNAME` dans la console de notre fournisseur de domaine.
+
+Chez Gandi, il suffit de se connecter à la console, d'aller dans la partie *Domains* puis cliquer sur *Add DNS record*.
+Les deux paramètres importants sont :
+
+- Name : `blog.deraco.fr`
+- Hostname : `stephane.deraco.github.io.` (**Attention à ne pas oublier le point final !**)
+
+Il faut maintenant attendre que la propagation DNS se fasse.
