@@ -203,7 +203,7 @@ Renseigner ensuite le domaine (`blog.deraco.fr`),dans *Custom domain*, et enregi
 Il faut ensuite *prouver* à Github que l'on possède bien le domaine personnalisé en question, et configurer le DNS.
 Pour cela, la méthode est d'ajouter un enregistrement `CNAME` dans la console de notre fournisseur de domaine.
 
-Chez Gandi, il suffit de se connecter à la console, d'aller dans la partie *Domains* puis cliquer sur *Add DNS record*.
+Chez [Gandi](https://www.gandi.net/), il suffit de se connecter à la console, d'aller dans la partie *Domains* puis cliquer sur *Add DNS record*.
 Les deux paramètres importants sont :
 
 - Name : `blog.deraco.fr`
@@ -222,3 +222,6 @@ En rafraichissant régulièrement la page Github du site (*Settings* > *Pages*),
 
 ### Modification de `config.yaml`
 Comme le site est maintenant disponible sur une autre addresse, il faut modifier le paramètre `baseURL` du fichier `config.yaml` afin de pointer sur le domaine personnalisé.
+
+# Conclusion
+Nous avons donc un site avec son propre domaine, hébergé par Github Pages (qui gère également son certificat), et dont le contenu statique est généré par Github Action lors de commits sur le code source du site, rédigé en Markdown et transformé par Hugo.
