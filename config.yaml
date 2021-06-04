@@ -1,9 +1,19 @@
 baseURL: https://blog.deraco.fr/
-languageCode: fr-fr
 title: Blog de Stéphane
 theme: ananke
 
-DefaultContentLanguage: fr
+defaultContentLanguage: fr
+defaultContentLanguageInSubdir: true
+
+languages:
+  en:
+    title: Stéphane's Blog
+    contentDir: ./content/en/
+    languageCode: en
+  fr:
+    title: Blog de Stéphane
+    contentDir: ./content/fr/
+    languageCode: fr
 
 params:
   show_reading_time: true
