@@ -1,6 +1,7 @@
 ---
 title: "Création d'un blog avec Hugo"
 date: 2021-04-10T14:54:31+02:00
+translationKey: "creer-un-blog-avec-hugo"
 ---
 
 De manière tout à fait non originale, le premier post de ce blog indique de quelle façon il est généré et hébergé.
@@ -95,7 +96,7 @@ Les fichiers constituant le site sont alors générés dans le répertoire `publ
 > **Note** : Ne pas oublier d'enlever le statut `draft` des pages que l'on souhaite publier.
 
 > **Note** : Dans le fichier `config.yaml`, la valeur de `baseURL` sera utilisée pour les liens, notamment depuis la page d'accueil vers les articles.
-Par défaut, c'est `example.org`. Il faut bien évidemment modifier cette valeur pour mettre l'adresse où le site sera hébergé. Cependant, pour s'assurer que la génération des pages fonctionne, on peut utiliser la commande `hugo -b http://localhost:8000/`, lancer la génération, se placer dans le répertoire `public` et lancer un serveur web depuis se répertoire par exemple avec `python3 -m http.server`.
+Par défaut, c'est `example.org`. Il faut bien évidemment modifier cette valeur pour mettre l'adresse où le site sera hébergé. Cependant, pour s'assurer que la génération des pages fonctionne, on peut utiliser la commande `hugo -b http://localhost:8000/`, lancer la génération, se placer dans le répertoire `public` et lancer un serveur web depuis ce répertoire par exemple avec `python3 -m http.server`.
 
 ## Publication du site
 Le site sera hébergé en utilisant la fonctionnalité [Github *Pages*](https://guides.github.com/features/pages/).
@@ -104,7 +105,7 @@ C'est ce dépôt qui sera utilisé pour le contenu du site.
 
 La [documentation de Hugo](https://gohugo.io/hosting-and-deployment/hosting-on-github/) indique la marche à suivre.
 
-> Note : On trouvera sur le web une solution à base de submodules Git afin de garder deux dépôts différents, un pour le code du site et un pour le résultat de la génération.
+> **Note** : On trouvera sur le web une solution à base de submodules Git afin de garder deux dépôts différents, un pour le code du site et un pour le résultat de la génération.
 > Avec les *Github Actions*, comme indiqué sur le site de Hugo, tout cela est grandement simplifié.
 
 Il faut également créer le dépôt qui va contenir le code source.
@@ -156,7 +157,7 @@ Comme indiqué, il faut créer le fichier suivant :
 >           publish_dir: ./public
 > ```
 
-Par rapport à la version proposé sur le site d'Hugo, ici on indique de pousser le résultat de la construction du site sur un autre dépôt que celui d'origine (`external_repository`), comme documenté sur le [site de l'action Github `peaceiris/actions-gh-pages`](https://github.com/marketplace/actions/github-pages-action#%EF%B8%8F-deploy-to-external-repository-external_repository).
+Par rapport à la version proposée sur le site d'Hugo, ici on indique de pousser le résultat de la construction du site sur un autre dépôt que celui d'origine (`external_repository`), comme documenté sur le [site de l'action Github `peaceiris/actions-gh-pages`](https://github.com/marketplace/actions/github-pages-action#%EF%B8%8F-deploy-to-external-repository-external_repository).
 
 Comme l'action Github doit interagir avec un dépôt différent de celui à l'origine de l'action, il faut créer une [clé SSH de déploiement](https://github.com/marketplace/actions/github-pages-action#%EF%B8%8F-create-ssh-deploy-key) :
 
@@ -197,7 +198,7 @@ Il suffit de créer un fichier `static/CNAME` avec en contenu uniquement le doma
 ### Configuration de Github
 Côté Github, [la documentation](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#configuring-a-subdomain) précise qu'il faut configurer le domaine dans le menu *Settings* > *Pages* du dépôt contenu le résultat généré du site statique (ici `stephane-deraco.github.io`).
 
-Renseigner ensuite le domaine (`blog.deraco.fr`),dans *Custom domain*, et enregistrer.
+Renseigner ensuite le domaine (`blog.deraco.fr`) dans *Custom domain*, et enregistrer.
 
 ### Configuration du fournisseur de domaine
 Il faut ensuite *prouver* à Github que l'on possède bien le domaine personnalisé en question, et configurer le DNS.
