@@ -1,7 +1,6 @@
 ---
 title: "How to create a multilingual site with Hugo"
 date: 2021-06-12
-draft: true
 translationKey: how-to-create-multilingual-site-with-hugo
 ---
 
