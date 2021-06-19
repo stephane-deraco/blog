@@ -2,11 +2,12 @@
 title: "How to create a multilingual site with Hugo"
 date: 2021-06-12
 translationKey: how-to-create-multilingual-site-with-hugo
+toc: true
 ---
 
 With Hugo, we can create a [multilingual site](https://gohugo.io/content-management/multilingual/).
 
-# Configuration
+## Configuration
 We first have to write in the config file what are the supported languages:
 
 > *config.yaml.*
@@ -26,7 +27,7 @@ For the default language, the base address is simply `/`, whereas for the other 
 
 This behaviour can be modified to always have `/xx`, including the default language, with this parameter: `defaultContentLanguageInSubdir: true`.
 
-# Translation location
+## Translation location
 Hugo can use two different ways to find translated files:
 - language code in the file name, for example `great-post.en.md` and `great-post.fr.md`
 - specific folder for each language
@@ -48,7 +49,7 @@ languages:
 > **Warning** : Files have to be in the `content/en/post` or `content/fr/post` folder (in this example).
 > If files are simply in `content/en`, then they will not be generated.
 
-# URLs translation
+## URLs translation
 So far, everything works fine :)
 
 But as Hugo uses file names in order to link the same content but translated, and that this name is in the URL, then by default URLs are not translated.
@@ -67,7 +68,7 @@ translationKey: who-am-i
 ---
 ```
 
-# HTML `lang` attribute
+## HTML `lang` attribute
 W3C specification says that the `<html>` tag [must contains a `lang` attribute](https://www.w3.org/International/questions/qa-html-language-declarations), with the 2-letter language code.
 
 So we have to remove the default language (`languageCode: fr-fr`) from the configuration file, and specify in the `languages` block, for each language, its 2-letter code:
@@ -90,7 +91,7 @@ With this, the  `lang` attribute will be automatically set to the right value (f
 <html lang="en">
 ```
 
-# Automatically redirect to the right language
+## Automatically redirect to the right language
 By default, when we access the site without specifying the language in the URL, we are automatically redirected to the default language (the one set in the configuration by the `defaultContentLanguage` parameter).
 
 We could do better, because browsers send a list of supported (or rather preferred) languages.
@@ -164,6 +165,6 @@ We just have to add a `layouts/alias.html` file in which some Javascript code wi
 
 Thanks to [nanmu42](https://twitter.com/nanmu42) for sharing this tip!
 
-# Final words
+## Final words
 It's not so hard to make a multilingual site with Hugo.
 The hardest part will be to do all the translations :)

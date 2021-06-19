@@ -2,11 +2,12 @@
 title: "Création d'un blog avec Hugo"
 date: 2021-04-10T14:54:31+02:00
 translationKey: "creer-un-blog-avec-hugo"
+toc: true
 ---
 
 De manière tout à fait non originale, le premier post de ce blog indique de quelle façon il est généré et hébergé.
 
-# Choix du moteur
+## Choix du moteur
 Ce blog est statique, il ne repose pas sur un gestionnaire de contenu type Wordpress ou autre.
 Au contraire, toutes les pages sont générées en amont en HTML/CSS/JS et sont servies de manière statique.
 L'outil pour générer ces pages est [Hugo](https://gohugo.io).
@@ -14,7 +15,7 @@ L'outil pour générer ces pages est [Hugo](https://gohugo.io).
 Hugo prend en entrée des fichiers au format Markdown, et génère le HTML associé.
 Il existe de nombreuses extensions pour ajouter des fonctionnalités.
 
-# Mise en place
+## Mise en place
 Commencer par télécharger et installer Hugo en suivant les [instructions officielles](https://gohugo.io/getting-started/installing/).
 
 Ensuite, pour créer un nouveau site, taper la commande suivante :
@@ -44,7 +45,7 @@ Hugo supporte aussi le format _YAML_ pour ce fichier de configuration, ce que je
 >theme: ananke
 >```
 
-## Configuration du thème
+### Configuration du thème
 Chaque thème vient avec ses propres possibilités de configuration et d'extension.
 
 Par exemple, pour ce thème, il est possible d'ajouter les paramètres suivants :
@@ -59,7 +60,7 @@ params:
 Il est possible d'aller plus loin en personnalisant les aspects visuels classiques (couleur de fond, images, ...) ou même d'utiliser un fichier CSS personnalisé.
 
 
-## Création d'une nouvelle entrée de blog
+### Création d'une nouvelle entrée de blog
 Pour créer un nouveau post, il suffit de taper la commande suivante :
 ```bash
 hugo new posts/2021-04-11-creation-blog-avec-hugo.md
@@ -76,12 +77,12 @@ hugo server -D
 - `hugo server` permet de construire en local les pages, lance un serveur web et scrute les modifications pour reconstruire à la volée les pages et rafraichir le navigateur grâce à une fonction de _live reload_
 - le flag `-D` indique de générer également les pages _drafts_
 
-# Hébergement
+## Hébergement
 Comme au final le site est constitué uniquement de ressources statiques, n'importe quel hébergement de base peut suffire.
 
 Ici, je profite de la fonctionnalité Githup Pages pour héberger et servir le blog.
 
-## Construire le site
+### Construire le site
 La première étape est de construire le site.
 Pour cela, la commande à exécuter est :
 
@@ -98,7 +99,7 @@ Les fichiers constituant le site sont alors générés dans le répertoire `publ
 > **Note** : Dans le fichier `config.yaml`, la valeur de `baseURL` sera utilisée pour les liens, notamment depuis la page d'accueil vers les articles.
 Par défaut, c'est `example.org`. Il faut bien évidemment modifier cette valeur pour mettre l'adresse où le site sera hébergé. Cependant, pour s'assurer que la génération des pages fonctionne, on peut utiliser la commande `hugo -b http://localhost:8000/`, lancer la génération, se placer dans le répertoire `public` et lancer un serveur web depuis ce répertoire par exemple avec `python3 -m http.server`.
 
-## Publication du site
+### Publication du site
 Le site sera hébergé en utilisant la fonctionnalité [Github *Pages*](https://guides.github.com/features/pages/).
 Il faut commencer par créer sur Github un nouveau dépôt ayant en nom `username.github.io` avec *username* le nom d'utilisateur Github.
 C'est ce dépôt qui sera utilisé pour le contenu du site.
@@ -187,7 +188,7 @@ Avec les opérations précédentes, le site est déjà disponible sur https://st
 
 Afin qu'il soit disponible sur un autre site personnel (par exemple https://blog.deraco.fr), il faut suivre les [instructions d'Hugo pour mettre en place un domaine personnalisé](https://gohugo.io/hosting-and-deployment/hosting-on-github/#use-a-custom-domain).
 
-### Configuration d'Hugo
+#### Configuration d'Hugo
 Il suffit de créer un fichier `static/CNAME` avec en contenu uniquement le domaine personnalisé :
 
 > *static/CNAME*
@@ -195,12 +196,12 @@ Il suffit de créer un fichier `static/CNAME` avec en contenu uniquement le doma
 > blog.deraco.fr
 > ```
 
-### Configuration de Github
+#### Configuration de Github
 Côté Github, [la documentation](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#configuring-a-subdomain) précise qu'il faut configurer le domaine dans le menu *Settings* > *Pages* du dépôt contenu le résultat généré du site statique (ici `stephane-deraco.github.io`).
 
 Renseigner ensuite le domaine (`blog.deraco.fr`) dans *Custom domain*, et enregistrer.
 
-### Configuration du fournisseur de domaine
+#### Configuration du fournisseur de domaine
 Il faut ensuite *prouver* à Github que l'on possède bien le domaine personnalisé en question, et configurer le DNS.
 Pour cela, la méthode est d'ajouter un enregistrement `CNAME` dans la console de notre fournisseur de domaine.
 
@@ -212,7 +213,7 @@ Les deux paramètres importants sont :
 
 Il faut maintenant attendre que la propagation DNS se fasse.
 
-### HTTPS
+#### HTTPS
 Comme le site est au final hébergé sur un domaine de Github, le certificat présenté par le site ne correspondra pas au domaine personnalisé, et le navigateur affichera un erreur du type :
 
 > Les sites web justifient leur identité par des certificats. Firefox ne fait pas confiance à ce site, car il utilise un certificat qui n’est pas valide pour blog.deraco.fr. Le certificat est seulement valide pour les noms suivants : www.github.com, *.github.com, github.com, *.github.io, github.io, *.githubusercontent.com, githubusercontent.com
@@ -221,8 +222,8 @@ Comme le site est au final hébergé sur un domaine de Github, le certificat pr�
 
 En rafraichissant régulièrement la page Github du site (*Settings* > *Pages*), on peut voir d'une part le statut de la vérification du domaine personnalisé, et d'autre part qu'un certificat est en cours de génération.
 
-### Modification de `config.yaml`
+#### Modification de `config.yaml`
 Comme le site est maintenant disponible sur une autre addresse, il faut modifier le paramètre `baseURL` du fichier `config.yaml` afin de pointer sur le domaine personnalisé.
 
-# Conclusion
+## Conclusion
 Nous avons donc un site avec son propre domaine, hébergé par Github Pages (qui gère également son certificat), et dont le contenu statique est généré par Github Action lors de commits sur le code source du site, rédigé en Markdown et transformé par Hugo.

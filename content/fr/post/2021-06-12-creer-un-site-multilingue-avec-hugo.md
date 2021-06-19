@@ -2,11 +2,12 @@
 title: "Comment créer un site multilingue avec Hugo"
 date: 2021-06-12
 translationKey: how-to-create-multilingual-site-with-hugo
+toc: true
 ---
 
 Hugo permet de créer un [site avec plusieurs langues](https://gohugo.io/content-management/multilingual/).
 
-# Configuration
+## Configuration
 Il faut tout d'abord indiquer dans le fichier de configuration la liste des langues qui seront supportées :
 
 > *config.yaml.*
@@ -26,7 +27,7 @@ Pour la langue par défaut, l'adresse de base est simplement `/`, alors que pour
 
 Ce comportement peut être modifié pour avoir toujours `/xx`, y compris pour la langue par défaut, avec ce paramètre : `defaultContentLanguageInSubdir: true`.
 
-# Emplacement de la traduction
+## Emplacement de la traduction
 Hugo reconnait les différentes traductions par deux mécanismes possibles :
 - code de la langue dans le nom de fichier, par exemple `great-post.en.md` et `great-post.fr.md`
 - répertoire spécifique pour chaque langue.
@@ -48,7 +49,7 @@ languages:
 > **Attention** : Les fichiers doivent se trouver dans le répertoire `content/en/post` ou `content/fr/post` dans l'exemple ici.
 > Si les fichiers sont simplement dans `content/en`, alors ils ne seront pas générés.
 
-# Traduction des URLs
+## Traduction des URLs
 Avec ce mécanisme, cela fonctionne bien, mais comme Hugo se base sur le nom des fichiers pour faire le lien, et que ce nom se retrouve dans l'URL, alors par défaut les URLs ne sont pas traduites.
 
 Par exemple, si on a les fichiers `content/en/post/who-am-i.md` et `content/fr/post/qui-suis-je.md`, Hugo ne saura pas que c'est le même contenu mais traduit.
@@ -64,7 +65,7 @@ translationKey: who-am-i
 ---
 ```
 
-# Attribut HTML `lang`
+## Attribut HTML `lang`
 Le W3C indique que la balise `<html>` [doit contenir un attribut `lang`](https://www.w3.org/International/questions/qa-html-language-declarations) avec le code de la langue sur 2 caractères.
 
 Il faut donc supprimer du fichier de configuration la langue par défaut (`languageCode: fr-fr`) et indiquer dans le bloc `languages`, pour chaque langue, le code à 2 lettres de la langue :
@@ -87,7 +88,7 @@ Ainsi, l'attribut `lang` sera automatiquement à la bonne valeur, par exemple :
 <html lang="en">
 ```
 
-# Redirection automatique sur la bonne langue
+## Redirection automatique sur la bonne langue
 Par défaut, quand on accède au site sans préciser la langue dans l'URL, on est automatiquement redirigé vers la langue par défaut (définie dans le fichier de configuration par la clé `defaultContentLanguage`).
 
 Or les navigateurs envoient une liste de langues dans l'ordre de préférence de l'utilisateur.
@@ -161,6 +162,6 @@ Il suffit d'ajouter un fichier `layouts/alias.html` dans lequel du code Javascri
 
 Merci à [nanmu42](https://twitter.com/nanmu42) pour cette astuce !
 
-# Conclusion
+## Conclusion
 Il est assez simple de gérer plusieurs langues avec Hugo.
 Finalement, le plus compliqué sera de traduire :)

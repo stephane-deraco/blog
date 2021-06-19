@@ -2,11 +2,12 @@
 title: "Create a blog with Hugo"
 date: 2021-04-10T14:54:31+02:00
 translationKey: "creer-un-blog-avec-hugo"
+toc: true
 ---
 
 Unsurprisingly, the first post of this blog explains how it is built and hosted.
 
-# Blog engine choice
+## Blog engine choice
 This blog is static, meaning it does not need a content management system such as Wordpress, Drupal or others.
 
 On the contrary, all pages are generated upstream in HTML/CSS/JS, and are served statically.
@@ -15,7 +16,7 @@ The tool that does all that (and more) is [Hugo](https://gohugo.io).
 Hugo takes in input Markdown files, and generates the corresponding HTML.
 There are many extensions that can add more functionality.
 
-# Set up
+## Set up
 We first have to download and install Hugo by following the [official instructions](https://gohugo.io/getting-started/installing/).
 
 Then type the following command to create a new site:
@@ -46,7 +47,7 @@ Note that Hugo also support _YAML_ for this file, and that's what we'll use here
 >theme: ananke
 >```
 
-## Theme configuration
+### Theme configuration
 Each theme has its own configuration and customization.
 
 For exemple, for this theme, we can add the following parameters:
@@ -61,7 +62,7 @@ params:
 We can customize a lot more things like visual aspect (background color, images, ...) and even use a custom CSS.
 
 
-## Create a new blog entry
+### Create a new blog entry
 To create a new blog post, simply type the following command:
 
 ```bash
@@ -81,12 +82,12 @@ hugo server -D
 The brower is then refreshed automatically thanks to a _live reload_ feature.
 - the `-D` flag is here to tell Hugo to also build _draft_ pages.
 
-# Hosting
+## Hosting
 The site will only contains static files, so any hosting will do the job.
 
 Here, I use the Github Pages functionnality to host this site.
 
-## Build the site
+### Build the site
 The first step is to build the site with this command:
 
 ```bash
@@ -103,7 +104,7 @@ All files that will form the final site are generated in the `public` directory.
 By default the value is `example.org`. You need to modifiy this value with where the site will be hosted.
 However, in order to test the site locally, we can use the command `hugo -b http://localhost:8000/`, go in the `public` directory, and launch a web server with `python3 -m http.server`.
 
-## Publish the site
+### Publish the site
 The site will be hosted with [Github *Pages*](https://guides.github.com/features/pages/).
 We have to create a new Github repository with the name `username.github.io`, *username* being the Github username.
 This repository will contain the site content, that is the HTML/CSS/JS that Hugo will generate.
@@ -187,12 +188,12 @@ git push -u origin main
 
 The Github Action will be triggered, and soon the repository for the generated files will be updated with what Hugo has built.
 
-## Use a personal domain
+### Use a personal domain
 So far, the web site is already available on https://stephane-deraco.github.io/!
 
 We can use a personal domain (like https://blog.deraco.fr), everything is explained in [the Hugo documentation](https://gohugo.io/hosting-and-deployment/hosting-on-github/#use-a-custom-domain).
 
-### Hugo configuration
+#### Hugo configuration
 We need to create the `static/CNAME` file with the personal domain in content:
 
 > *static/CNAME*
@@ -200,12 +201,12 @@ We need to create the `static/CNAME` file with the personal domain in content:
 > blog.deraco.fr
 > ```
 
-### Github configuration
+#### Github configuration
 On the Github side, [the documentation](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#configuring-a-subdomain) states that we have to configure the domain in the *Settings* > *Pages* page of the repository containing the static resources (here, `stephane-deraco.github.io`).
 
 Then fill in the domain (`blog.deraco.fr`) in *Custom domain* and save.
 
-### Registar configuration
+#### Registar configuration
 We have to prove to Github that we actually own the personal domain in question, and configure the DNS.
 A way to do that is to add a `CNAME` record in the console of our registar.
 
@@ -217,7 +218,7 @@ Two parameters are important:
 
 Now, all we have to do is to wait for the DNS propagation.
 
-### HTTPS
+#### HTTPS
 As the web site is hosted on Github, the certificate sent by the site will not match the personal domain we have just configured, and the brower will display on error like this one:
 
 > Websites guarantee their identity through certificates. Firefox does not consider this site reliable as it uses a certificate that is not valid for blog.deraco.fr. The certificate is valid only for the following names: www.github.com, *.github.com, github.com, *.github.io, github.io, *.githubusercontent.com, githubusercontent.com
@@ -227,9 +228,9 @@ As the web site is hosted on Github, the certificate sent by the site will not m
 If you regularly refresh the Github page of the site (*Settings* > *Pages*), you will see the personal domain verification status, and also that a certificate is being generated.
 Just be patient!
 
-### `config.yaml` modification
+#### `config.yaml` modification
 As the site is on another URL now, we have to modify the `baseURL` parameter of the `config.yaml` file in order to use the personal domain.
 
-# Conclusion
+## Conclusion
 We now have a blog site with its own domain, hosted by Github Pages (that has also generated a certificate).
 Its content is static, is generated by Github Action when commits on the source code of the site are pushed, and is generated by Hugo based on Markdown files.
