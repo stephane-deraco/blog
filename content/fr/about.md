@@ -1,5 +1,5 @@
 ---
-title: À propos & Tags
+title: À propos
 omit_header_text: true
 type: page
 menu: main
