@@ -3,6 +3,7 @@ title: "Comment créer un site multilingue avec Hugo"
 date: 2021-06-12
 translationKey: how-to-create-multilingual-site-with-hugo
 toc: true
+tags: [Hugo, Multilingue]
 ---
 
 Hugo permet de créer un [site avec plusieurs langues](https://gohugo.io/content-management/multilingual/).

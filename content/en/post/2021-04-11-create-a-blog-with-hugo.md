@@ -3,6 +3,7 @@ title: "Create a blog with Hugo"
 date: 2021-04-10T14:54:31+02:00
 translationKey: "creer-un-blog-avec-hugo"
 toc: true
+tags: [Hugo, Github Pages]
 ---
 
 Unsurprisingly, the first post of this blog explains how it is built and hosted.
