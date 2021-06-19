@@ -23,3 +23,4 @@ params:
   featured_image: /images/elephants.jpg
   background_color_class: bg-dark-gray
   rss: true
+  from: "2021"
