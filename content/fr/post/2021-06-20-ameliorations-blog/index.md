@@ -29,6 +29,12 @@ Pour référencer une image dans un billet, il suffit dans de la copier dans le 
 ![Titre image](images/abc.png)
 ```
 
+ou alors 
+
+```
+{{</* figure src="images/abc.png" */>}}
+```
+
 ## CSS personnalisée
 J'avais envie que les citations Markdown (`> blablabla`) se distinguent un peu mieux visuellement.
 Pour cela, il est possible de personnaliser la CSS utilisée.
@@ -88,7 +94,7 @@ Une fois cela fait, je peux y apporter des modifications et les pousser sur Gith
 J'ai principalement ajouté des traductions, des liens, etc.
 
 Un exemple est d'avoir l'année dans le pied de page du site.
-Cela se fait dans le fichier du thème suivant : `layouts/partials/site-footer.html`.
+Cela se fait dans le fichier du thème suivant : `themes/ananke/layouts/partials/site-footer.html`.
 Voici le code par défaut :
 
     &copy; {{ with .Site.Copyright | default .Site.Title }} {{ . | safeHTML }} {{ now.Format "2006"}} {{ end }}
@@ -137,7 +143,7 @@ Il y a peut-être moyen d'y arriver, il faudrait que je creuse un peu plus.
 Une des fonctionnalités de base de Hugo est la gestion [de taxonomies](https://gohugo.io/content-management/taxonomies/).
 Je vais simplement utiliser la notion de tags, qui est une des taxonomies par défaut.
 
-Pour cela, il suffit simplement d'ajouter dans l'en-tête des fichiers Markdown :
+Pour cela, il suffit d'ajouter dans l'en-tête des fichiers Markdown :
 
 ```yaml
 ---
@@ -165,7 +171,7 @@ Pour cela il faut modifier le fichier `themes/ananke/layouts/partials/site-navig
 </li>
 ```
 
-Dans les fichier `themes/ananke/i18n/{en,fr}.toml`, ajouter :
+Dans les fichiers `themes/ananke/i18n/{en,fr}.toml`, ajouter pour la traduction :
 
 ```toml
 [tags]
