@@ -2,6 +2,7 @@ baseURL: https://blog.deraco.fr/
 title: Blog de Stéphane
 theme: ananke
 
+
 defaultContentLanguage: fr
 defaultContentLanguageInSubdir: true
 
