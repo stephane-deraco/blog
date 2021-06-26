@@ -1,7 +1,7 @@
 ---
 title: "Améliorer le blog avec les tags, table des matières, RSS, etc"
-date: 2021-06-12
-translationKey: blog-ameliorations
+date: 2021-06-26
+translationKey: blog-improvements
 toc: true
 tags: [Hugo, tags, RSS]
 featured_image: images/2021-06-20-tags.png
@@ -32,7 +32,7 @@ Pour référencer une image dans un billet, il suffit dans de la copier dans le 
 ou alors 
 
 ```
-{{</* figure src="images/abc.png" */>}}
+{{</* figure src="images/abc.png" title="Titre image" */>}}
 ```
 
 ## CSS personnalisée
@@ -276,3 +276,6 @@ en
 
 Avec cette configuration, un clic sur le logo RSS emmène sur le flux RSS dans la langue en cours.
 
+## Conclusion
+Hugo est très personnalisable, et il est possible de le personnaliser (ou le thème) avec un peu de code.
+La fonctionnalité de shortcode est très puissante.
