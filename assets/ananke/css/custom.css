@@ -1,0 +1,16 @@
+/* See https://tachyons.io/ used by Ananke theme */
+
+blockquote {
+    padding: 1rem;
+    font-family: baskerville, serif;
+    background-color: #ffffff;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #dddddd;
+    border-radius: 1rem;
+}
+
+.nested-img img {
+    width: auto;
+    box-shadow: 6px 6px 20px 0px rgba(0, 0, 0, 0.5);
+}

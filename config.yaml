@@ -24,3 +24,4 @@ params:
   background_color_class: bg-dark-gray
   rss: true
   from: "2021"
+  custom_css: [custom.css]

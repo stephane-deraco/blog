@@ -40,13 +40,13 @@ Here, we use the default theme, but there are [many others](https://themes.gohug
 Once the theme has been added, we must reference it in the configuration file `config.toml`.
 Note that Hugo also support _YAML_ for this file, and that's what we'll use here:
 
-> *config.yaml*
->```yaml
->baseURL: http://example.org/
->languageCode: fr-fr
->title: Blog de Stéphane
->theme: ananke
->```
+*config.yaml*
+```yaml
+baseURL: http://example.org/
+languageCode: fr-fr
+title: Blog de Stéphane
+theme: ananke
+```
 
 ### Theme configuration
 Each theme has its own configuration and customization.
@@ -124,45 +124,45 @@ Eventually, two repositories are required:
 Github Actions will generate and publish the site.
 As described in the documentation, we need to create this file:
 
-> *.github/workflows/gh-pages.yml*
-> ```yaml
-> name: github pages
-> 
-> on:
->   push:
->     branches:
->       - main  # Set a branch to deploy
->   pull_request:
-> 
-> jobs:
->   deploy:
->     runs-on: ubuntu-20.04
->     steps:
->       - uses: actions/checkout@v2
->         with:
->           submodules: true  # Fetch Hugo themes (true OR recursive)
->           fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
-> 
->       - name: Setup Hugo
->         uses: peaceiris/actions-hugo@v2
->         with:
->           hugo-version: 'latest'
->           # extended: true
-> 
->       - name: Build
->         run: hugo --minify
->         env:
->           HUGO_ENV: production
-> 
->       - name: Deploy
->         uses: peaceiris/actions-gh-pages@v3
->         if: github.ref == 'refs/heads/main'
->         with:
->           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
->           external_repository: stephane-deraco/stephane-deraco.github.io
->           publish_branch: main
->           publish_dir: ./public
-> ```
+*.github/workflows/gh-pages.yml*
+```yaml
+name: github pages
+
+on:
+  push:
+    branches:
+      - main  # Set a branch to deploy
+  pull_request:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true  # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+          # extended: true
+
+      - name: Build
+        run: hugo --minify
+        env:
+          HUGO_ENV: production
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: stephane-deraco/stephane-deraco.github.io
+          publish_branch: main
+          publish_dir: ./public
+```
 
 The only difference with the Hugo documentation is that we tell Github Actions to push the generated files on another repository (`external_repository`), as explained on the [site of Github Action `peaceiris/actions-gh-pages`](https://github.com/marketplace/actions/github-pages-action#%EF%B8%8F-deploy-to-external-repository-external_repository).
 
@@ -197,10 +197,10 @@ We can use a personal domain (like https://blog.deraco.fr), everything is explai
 #### Hugo configuration
 We need to create the `static/CNAME` file with the personal domain in content:
 
-> *static/CNAME*
-> ```
-> blog.deraco.fr
-> ```
+*static/CNAME*
+```
+blog.deraco.fr
+```
 
 #### Github configuration
 On the Github side, [the documentation](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#configuring-a-subdomain) states that we have to configure the domain in the *Settings* > *Pages* page of the repository containing the static resources (here, `stephane-deraco.github.io`).

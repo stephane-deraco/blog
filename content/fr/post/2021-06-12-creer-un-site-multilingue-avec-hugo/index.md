@@ -11,14 +11,14 @@ Hugo permet de créer un [site avec plusieurs langues](https://gohugo.io/content
 ## Configuration
 Il faut tout d'abord indiquer dans le fichier de configuration la liste des langues qui seront supportées :
 
-> *config.yaml.*
-> ```yaml
-> languages:
->   en:
->     title: Stéphane's Blog
->   fr:
->     title: Blog de Stéphane
-> ```
+*config.yaml*
+```yaml
+languages:
+  en:
+    title: Stéphane's Blog
+  fr:
+    title: Blog de Stéphane
+```
 
 Il est possible d'ajouter un bloc `params` pour chaque langue afin de surcharger des valeurs spécifiques en fonction de la langue, par exemple des libellés ou des urls différents.
 

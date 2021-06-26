@@ -11,14 +11,14 @@ With Hugo, we can create a [multilingual site](https://gohugo.io/content-managem
 ## Configuration
 We first have to write in the config file what are the supported languages:
 
-> *config.yaml.*
-> ```yaml
-> languages:
->   en:
->     title: Stéphane's Blog
->   fr:
->     title: Blog de Stéphane
-> ```
+*config.yaml*
+```yaml
+languages:
+  en:
+    title: Stéphane's Blog
+  fr:
+    title: Blog de Stéphane
+```
 
 We can add a `params` block for each language to override some specific values depending on the language, for example labels or urls.
 
