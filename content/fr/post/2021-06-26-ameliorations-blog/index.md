@@ -23,7 +23,7 @@ Dans ce répertoire se trouvent :
 - le contenu Markdown dans le fichier `index.md`
 - éventuellement un répertoire `images` dans lequel se trouveront les images
 
-Pour référencer une image dans un billet, il suffit dans de la copier dans le sous-répertoire `images`, puis d'utiliser la syntaxe :
+Pour référencer une image dans un billet, il suffit de de la copier dans le sous-répertoire `images`, puis d'utiliser la syntaxe :
 
 ```md
 ![Titre image](images/abc.png)
