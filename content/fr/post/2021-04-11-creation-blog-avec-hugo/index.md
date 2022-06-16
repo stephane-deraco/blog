@@ -81,7 +81,7 @@ hugo server -D
 ## Hébergement
 Comme au final le site est constitué uniquement de ressources statiques, n'importe quel hébergement de base peut suffire.
 
-Ici, je profite de la fonctionnalité Githup Pages pour héberger et servir le blog.
+Ici, je profite de la fonctionnalité Github Pages pour héberger et servir le blog.
 
 ### Construire le site
 La première étape est de construire le site.
