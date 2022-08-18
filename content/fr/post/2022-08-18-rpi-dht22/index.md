@@ -1,19 +1,20 @@
 ---
 title: "Graphe de température et humidité avec un Raspberry Pi et un DHT22"
-date: 2022-07-24
+date: 2022-08-18
 translationKey: "rpi-dht22"
 toc: true
 tags: [Raspberry Pi, DHT22, Humidité, Température, Grafana, Prometheus]
+featured_image: images/2022-08-18-dht22.jpg
 ---
 
 Le DHT22 est un petit capteur de température et d'humidité, facile d'utilisation.
 On peut utiliser un Raspberry Pi pour interagir avec, et faire des graphes de l'évolution de la température et de l'humidité.
 
 ## Matériel
-Nous allons utiliser de :
+Nous allons utiliser :
 - un Raspberry Pi (ici, la version 3B+)
 - une carte SD de bonne qualité (classe 10)
-- une alimentation fournissant du 5V et du 2.5 à 3A
+- une alimentation fournissant du 5 V et du 2.5 à 3 A
 - un capteur d'humidité et de température DHT22
 - une résistance de 10 kΩ
 - une _breadboard_ (bloc dans lequel on enfiche les composants électroniques)
@@ -22,7 +23,7 @@ Nous allons utiliser de :
 
 ## Installation du RPi
 ### Préparation de la carte SD
-Il est possible d'installer sur un autre ordinateur le logiciel _[Raspberry Pi Imager](https://www.raspberrypi.com/software/)_, qui permet de choisir la bonne version de l'OS, la télécharger et l'installer sur la carte SD.
+Il est possible d'installer sur un autre ordinateur le logiciel _[Raspberry Pi Imager](https://www.raspberrypi.com/software/)_ qui permet de choisir la bonne version de l'OS, la télécharger et l'installer sur la carte SD.
 C'est la solution la plus simple.
 
 Si on ne souhaite pas installer ce logiciel, alors on peut récupérer l'image correspondante à la bonne version du Raspberry Pi ici : https://www.raspberrypi.com/software/operating-systems/.
@@ -46,11 +47,11 @@ cd /Volumes/boot
 On peut alors insérer la carte SD dans le RPi, brancher le câble RJ45 entre le RPi et la box internet (ou le routeur) et le démarrer en le branchant au secteur.
 
 ### Premier démarrage du RPi
-Le RPi démarre, et comme il est connecté à la box internet ou au routeur par le câble RJ45, il acquiert une adresse IP automatiquement.
+Le RPi démarre, et comme il est connecté à la box internet (ou au routeur) par le câble RJ45, il acquiert une adresse IP automatiquement.
 
 > **Note** : Le fait que le RPi récupère automatiquement une adresse IP est grâce au protocole DHCP qui normalement est en place sur la plupart des box internet.
 
-On ne connait pas son adresse IP pour le moment, mais on peut la récupérer de deux façons.
+On ne connait pas son adresse IP pour le moment, mais on peut la récupérer d'au moins deux façons.
 
 - **_Via_ l'interface de configuration de la box internet**  
 Par exemple, avec une Freebox, aller sur http://mafreebox.freebox.fr/, puis _Périphériques réseau_, clic-droit sur "raspberry pi" > _Propriétés_ puis onglet _Connectivité_.
@@ -120,7 +121,7 @@ pi@raspberrypi:~ $
 
 On est alors connecté sur le RPi.
 
-### Mise à jour et configuration Wifi
+### Mise à jour et configuration Wi-Fi
 Une fois connecté, lancer la mise à jour :
 
 ```shell
@@ -128,7 +129,7 @@ sudo apt update
 sudo apt upgrade
 ```
 
-La configuration du Wifi est optionnelle, mais permettra de se passer du câble RJ45, et donc de mettre le RPi où l'on veut.
+La configuration du Wi-Fi est optionnelle, mais permettra de se passer du câble RJ45, et donc de mettre le RPi où l'on veut.
 On utilise l'outil `raspi-config` :
 
 ```shell
@@ -142,12 +143,12 @@ Puis aller dans :
 - `Ok`
 - `1 System Options`
 - `S1 Wireless LAN`
-- Renseigner le SSID (le _nom_) du réseau Wifi
+- Renseigner le SSID (le _nom_) du réseau Wi-Fi
 - Renseigner le mot de passe (attendre un peu après avoir validé)
 - _Tabulation_ > `Finish`
 - À la question `Would you like to reboot now?`, sélectionner `No`
 
-Pour vérifier que le réseau Wifi est bien configuré, taper :
+Pour vérifier que le réseau Wi-Fi est bien configuré, taper :
 
 ```shell
 ip a
@@ -166,7 +167,7 @@ Rechercher alors le bloc correspondant à `wlan0` :
        valid_lft forever preferred_lft forever
 ```
 
-On y retrouve alors l'adresse IP de la carte Wifi du RPi, ici 192.168.0.54.
+On y retrouve alors l'adresse IP de la carte Wi-Fi du RPi, ici 192.168.0.54.
 
 On peut alors éteindre le RPi (`sudo halt`), débrancher le câble RJ45, puis le redémarrer en enlevant et remettant l'alimentation.
 
@@ -179,7 +180,7 @@ ssh pi@192.168.0.54
 
 ## Communiquer avec le capteur
 Le capteur sera relié au RPi à travers ses broches GPIO.
-Pour récupérer ses valeurs, nous allons écrire un programme dans le langage de programmation Python.
+Pour récupérer ses valeurs, nous allons écrire un programme en Python.
 Nous allons également utiliser une bibliothèque qui nous facilitera la communication avec le capteur.
 
 ### Ajout de logiciels
@@ -215,10 +216,10 @@ Le capteur DHT22 a 4 broches, qui correspondent à :
 
 De plus, il faut une résistance de 10 ohms entre les broches 1 (VCC) et 2 (Données).
 
-On peut retrouver ces informations [ici](https://learn.adafruit.com/dht/connecting-to-a-dhtxx-sensor) ou encore [là](https://www.sparkfun.com/datasheets/Sensors/Temperature/DHT22.pdf).
+On peut retrouver ces informations [sur le site Adafruit](https://learn.adafruit.com/dht/connecting-to-a-dhtxx-sensor) ou encore [dans les specifications techniques du capteur](https://www.sparkfun.com/datasheets/Sensors/Temperature/DHT22.pdf).
 
 
-Sur le RPi 3B+, la disposition des broches GPIO est comme suit ([source](https://datasheets.raspberrypi.com/rpi3/raspberry-pi-3-b-plus-reduced-schematics.pdf)) :
+Sur le RPi 3B+, la disposition des broches GPIO est la suivante ([source](https://datasheets.raspberrypi.com/rpi3/raspberry-pi-3-b-plus-reduced-schematics.pdf)) :
 
 ![RPi GPIO](images/rpi-gpio.png)
 
@@ -268,7 +269,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 Le circuit fonctionne comme attendu.
 
 ## Récupération et stockage des valeurs
-Pour stocker les valeurs et permettre leur récupération pour faire des graphes, on va utiliser une base de données temporelles
+Pour stocker les valeurs et permettre leur récupération pour faire des graphes, on va utiliser une base de données temporelles.
 Il en existe plusieurs, ici on va utiliser [Prometheus](https://prometheus.io).
 
 Prometheus fonctionne en mode _pull_, c'est lui qui récupère les métriques.
@@ -321,6 +322,7 @@ Pour rendre ce script exécutable :
 ```shell
 chmod +x sensors.py
 ```
+
 On peut le tester en le lançant avec `./sensors.py`, et en allant sur la page [http://192.168.0.54:8000](http://192.168.0.54:8000) (adapter l'adresse IP avec celle du RPi).
 
 Pour gérer ce script avec _systemd_ et qu'il soit automatiquement lancé au démarrage, créer le fichier suivant :
